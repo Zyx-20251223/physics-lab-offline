@@ -1,6 +1,6 @@
 /* Physics Lab offline service worker.
    VERSION is replaced by build_pwa.mjs on every build. */
-const VERSION = '6bbcc665a3';
+const VERSION = '6bd3f9371a';
 const CACHE = 'physics-lab-' + VERSION;
 const CORE = [
   './',
