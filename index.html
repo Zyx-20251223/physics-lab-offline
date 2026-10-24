@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>物理动画实验室 · 离线版</title>
+  <meta name="description" content="广东物理教材动画的离线演示库，装在 iPad 上，断网也能用。" />
+  <meta name="theme-color" content="#0b0e10" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="物理动画" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icons/icon-180.png" />
+  <link rel="icon" href="./icons/icon-192.png" />
+  <style>
+    :root{
+      --bg:#0b0e10; --panel:#111619; --panel-2:#161d21;
+      --ink:#f2efe6; --muted:#8d979d; --line:rgba(242,239,230,.12);
+      --amber:#e6b34a; --teal:#6fb3a8;
+      --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+      --mono:"SFMono-Regular",Menlo,Consolas,monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);}
+    body{min-height:100dvh;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;}
+    body.viewing{overflow:hidden;}
+    .shell{max-width:1180px;margin:0 auto;padding:48px 28px 64px;}
+    .hero-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--line);}
+    .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--muted);}
+    .status{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--amber);border:1px solid rgba(230,179,74,.35);padding:7px 10px;border-radius:2px;display:inline-flex;align-items:center;gap:8px;line-height:1.2;}
+    .status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 3px rgba(230,179,74,.12);flex:none;}
+    .status.ready{color:var(--teal);border-color:rgba(111,179,168,.35);}
+    .status.ready::before{background:var(--teal);box-shadow:0 0 0 3px rgba(111,179,168,.12);}
+    .status.warn{color:#e09a8a;border-color:rgba(224,154,138,.35);}
+    .status.warn::before{background:#e09a8a;box-shadow:0 0 0 3px rgba(224,154,138,.12);}
+    h1{font-size:clamp(34px,5vw,56px);line-height:1.05;letter-spacing:-.02em;font-weight:600;margin:28px 0 12px;}
+    .lede{color:var(--muted);font-size:clamp(14px,1.6vw,17px);line-height:1.7;max-width:680px;margin:0;}
+    .hint{margin-top:18px;font-size:13px;color:var(--muted);border-left:2px solid var(--amber);padding-left:12px;line-height:1.7;max-width:720px;}
+    .hint b{color:var(--ink);font-weight:500;}
+    section.cat{margin-top:46px;}
+    .cat-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+    .cat-head .num{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.1em;}
+    .cat-head h2{font-size:15px;font-weight:500;margin:0;letter-spacing:.04em;}
+    .cat-head .en{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.16em;}
+    .cat-head .rule{flex:1;height:1px;background:var(--line);}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;background:var(--bg);border-top:1px solid var(--line);border-left:1px solid var(--line);}
+    .card{appearance:none;text-align:left;background:var(--bg);border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);padding:22px 20px 18px;min-height:162px;display:flex;flex-direction:column;cursor:pointer;transition:background .18s ease;position:relative;}
+    .card:hover{background:var(--panel);}
+    .card:active{background:var(--panel-2);}
+    .card::after{content:"→";position:absolute;right:18px;top:19px;color:var(--amber);font-size:16px;opacity:.5;transition:opacity .18s ease,transform .18s ease;}
+    .card:hover::after{opacity:1;transform:translateX(3px);}
+    .card .idx{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.1em;}
+    .card h3{font-size:20px;line-height:1.3;font-weight:500;margin:24px 0 8px;}
+    .card p{font-size:12.5px;line-height:1.65;color:var(--muted);margin:0;}
+    .card .tag{margin-top:auto;padding-top:18px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted);}
+    .empty{color:var(--muted);font-size:14px;line-height:1.8;padding:24px 0;}
+    footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px;line-height:1.7;}
+    .btn{appearance:none;background:transparent;border:1px solid var(--line);color:var(--ink);padding:9px 12px;border-radius:2px;font:inherit;font-size:12px;cursor:pointer;min-height:38px;}
+    .btn:active{background:var(--panel);}
+    #viewer{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;}
+    #viewer[hidden]{display:none;}
+    .viewer-bar{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;border-bottom:1px solid var(--line);background:var(--bg);flex:none;}
+    #back{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:14px;padding:8px 14px;border-radius:2px;min-height:40px;cursor:pointer;flex:none;}
+    #back:active{background:var(--panel-2);}
+    #viewer-title{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    #stage{flex:1;width:100%;border:0;background:#0b0e10;min-height:0;}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media (max-width:620px){.shell{padding:28px 16px 44px}.grid{grid-template-columns:1fr}.card{min-height:auto}h1{margin-top:22px}section.cat{margin-top:34px}}
+    @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="hero-top">
+      <span class="eyebrow">PHYSICS LAB · OFFLINE EDITION</span>
+      <span id="status" class="status">正在准备离线缓存…</span>
+    </div>
+    <h1>物理动画实验室</h1>
+    <p class="lede">广东物理教材动画的课堂演示库。第一次联网打开后，全部内容会存到这台 iPad 上；之后上课不联网也能用。</p>
+    <p class="hint" id="install-hint">首次安装：在 Safari 底部点「分享」→「添加到主屏幕」。等上方出现「离线已就绪」后，再断网测试。</p>
+    <main id="grid"><p class="empty">正在载入目录…</p></main>
+    <footer>
+      <span>离线运行 · 缓存保存在本机 · 更新时联网刷新</span>
+      <button class="btn" id="refresh" type="button">检查更新</button>
+    </footer>
+  </div>
+
+  <div id="viewer" hidden>
+    <div class="viewer-bar">
+      <button id="back" type="button">‹ 目录</button>
+      <span id="viewer-title"></span>
+    </div>
+    <iframe id="stage" title="物理动画" allow="autoplay; fullscreen; clipboard-write" referrerpolicy="no-referrer"></iframe>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

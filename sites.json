@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "bi-xiu-yi",
+    "title": "必修一 · 四大模型",
+    "sub": "传送带 / 平衡 / 木板 / 追及",
+    "cat": "mechanics",
+    "path": "./animations/bi-xiu-yi/index.html"
+  },
+  {
+    "slug": "bi-xiu-2",
+    "title": "必修二 · 核心模型",
+    "sub": "曲线运动与能量综合",
+    "cat": "mechanics",
+    "path": "./animations/bi-xiu-2/index.html"
+  },
+  {
+    "slug": "boat-crossing-river",
+    "title": "小船渡河",
+    "sub": "最短时间与最短位移",
+    "cat": "mechanics",
+    "path": "./animations/boat-crossing-river/index.html"
+  },
+  {
+    "slug": "three-transmission-modes",
+    "title": "三种传动方式",
+    "sub": "皮带 / 齿轮 / 同轴",
+    "cat": "mechanics",
+    "path": "./animations/three-transmission-modes/index.html"
+  },
+  {
+    "slug": "satellite-orbit-change",
+    "title": "卫星变轨",
+    "sub": "变轨、追及与能量",
+    "cat": "mechanics",
+    "path": "./animations/satellite-orbit-change/index.html"
+  },
+  {
+    "slug": "mechanical-waves",
+    "title": "机械波",
+    "sub": "传播 / 干涉 / 衍射",
+    "cat": "mechanics",
+    "path": "./animations/mechanical-waves/index.html"
+  },
+  {
+    "slug": "jing-dian-xian-xiang",
+    "title": "静电现象",
+    "sub": "静电感应与电荷作用",
+    "cat": "electro",
+    "path": "./animations/jing-dian-xian-xiang/index.html"
+  },
+  {
+    "slug": "alternating-current",
+    "title": "交变电流的四个值",
+    "sub": "峰值 / 有效值 / 平均值 / 瞬时值",
+    "cat": "electro",
+    "path": "./animations/alternating-current/index.html"
+  },
+  {
+    "slug": "refraction-and-reflection",
+    "title": "折射与反射",
+    "sub": "光路与全反射",
+    "cat": "optics",
+    "path": "./animations/refraction-and-reflection/index.html"
+  },
+  {
+    "slug": "tu-tou-jing-cheng-xiang",
+    "title": "凸透镜成像",
+    "sub": "物距 / 像距 / 成像规律",
+    "cat": "optics",
+    "path": "./animations/tu-tou-jing-cheng-xiang/index.html"
+  }
+]
